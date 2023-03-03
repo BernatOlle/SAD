@@ -8,7 +8,10 @@ public class Constants {
                             INI_BUTTON = 72,
                             FIN_BUTTON = 70,
                             BKSP_BUTTON = 4,
-                            DEL_BUTTON = 51,
-                            INS_BUTTON = 50;
+                            DEL_BUTTON = 127,
+                            SUPR_BUTTON = 51,
+                            INS_BUTTON = 50,
+                            EXIT = 4,
+                            ENTER= 13;
     
 }

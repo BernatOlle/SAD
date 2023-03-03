@@ -1,9 +1,13 @@
+
 import java.io.*;
+
+
 
 
 class EditableBufferedReader extends BufferedReader {
     
     private boolean key;
+    Line ret= new Line();
 
     public EditableBufferedReader(Reader in) {
         super(in);
@@ -26,7 +30,7 @@ class EditableBufferedReader extends BufferedReader {
     }
 
     public void unsetRaw() {
-        String[] cmd = {"/bin/sh", "-c", "stty cooked -echo </dev/tty"};
+        String[] cmd = {"/bin/sh", "-c", "stty cooked echo </dev/tty"};
         try {
 			Runtime.getRuntime().exec(cmd).waitFor();
 		} catch (InterruptedException e) {
@@ -46,22 +50,19 @@ class EditableBufferedReader extends BufferedReader {
 
         try{
             character = super.read();
-            System.out.println(character);
-
             if(character == 27){
                 this.key=true;
                 character = super.read();
-                System.out.println(character);
                 character = super.read();
-                System.out.println(character);
-                if(character == 50 && character ==51){
+                if(character == 50 || character ==51){
                     super.read();
                 }
-                
+            }else if(character==127){
+
+                this.key=true;
             }
-
             ret = character;
-
+            
         } catch(IOException ex){
             System.out.println("Error: "+ex);
             ret = 0;
@@ -75,38 +76,57 @@ class EditableBufferedReader extends BufferedReader {
      */
     @Override
     public String readLine() throws IOException{
-        String ret= new String();
-        char c = '\0';
-        //setRaw();
+        
+        char c = '\0'; 
+        int number;
 
-        while(c!='\n'){
-            c = (char) read();
+        setRaw();
+        
+        do{
+            if(c==Constants.EXIT){
+                unsetRaw();
+                System.exit(1);
+            }
+            number = this.read();
             if(this.key==true){
-                switch(c){
+                switch(number){
                     case Constants.RIGHT_ARROW:
-                                                break;
+                        ret.moveR();  
+                        break;
                     case Constants.LEFT_ARROW:
-                                                break;
+                        ret.moveL();
+                          break;
                     case Constants.INI_BUTTON:
-                                                break;
+                        ret.gotoINI();                        
+                         break;
                     case Constants.FIN_BUTTON:
-                                                break;
+                    
+                        ret.gotoFIN();  
+                         break;
                     case Constants.INS_BUTTON:
-                                                break;
+                        ret.modeINS();
+                         break;
+                    case Constants.SUPR_BUTTON:  
+                        ret.supr();        
+                        break;
                     case Constants.DEL_BUTTON:
-                                                break;
+                        ret.dele();
+                        break;
                 }
+                
             }
-            else{
-                ret+=c;
-            }
+            else if(number!=13){
+               c = (char) number;
+               System.out.print(c);
+               ret.insert(c); 
+
+            }   
             
-        }
-        //unsetRaw();
-
-        return ret;
-
+        }while(number!=13);
+        unsetRaw();
+        return ret.toString();
     }
 
 
 }
+
