@@ -117,9 +117,8 @@ class EditableBufferedReader extends BufferedReader {
             }
             else if(number!=13){
                c = (char) number;
+               ret.insert(c);
                System.out.print(c);
-               ret.insert(c); 
-
             }   
             
         }while(number!=13);

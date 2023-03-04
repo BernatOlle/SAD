@@ -39,7 +39,7 @@ class Line {
     }
 
     public void gotoFIN(){
-        System.out.print("\033["+this.buff_length()+"C");
+        System.out.print("\033["+(this.buff_length()-this.cursor)+"C");
         this.cursor=this.buff.length();
     }
 
