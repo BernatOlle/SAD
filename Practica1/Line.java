@@ -1,13 +1,16 @@
-class Line {
+import java.util.Observable;
+
+public class Line extends Observable {
 
     public static final int BUFFER_CAPACITY = 16;
     private StringBuffer buff;
     private int cursor;
-    private boolean modo_ins=false;
+    private boolean modo_ins;
 
     public Line(){
         this.buff= new StringBuffer(BUFFER_CAPACITY);
         this.cursor=0;
+        this.modo_ins = false;
     }
 
     public int buff_length(){
@@ -19,7 +22,7 @@ class Line {
 
         int posicio=this.cursor+1;
          if(posicio<=this.buff.length()){
-            System.out.print("\033[1C");
+            notifyObservers(Constants.RIGHT_ARROW);
             this.cursor+=1;
          }
     }
@@ -27,37 +30,42 @@ class Line {
     public void moveL(){
 
         if(this.cursor!=0){
-            System.out.print("\033[1D");
+            notifyObservers(Constants.LEFT_ARROW);
             this.cursor-=1;
         }
 
     }
     
-    public void gotoINI(){
-        System.out.print("\033["+cursor+"D");
+    public int gotoINI(){
+        int cur_cursor = this.cursor;
         this.cursor=0;
+        return cur_cursor;
     }
 
-    public void gotoFIN(){
-        System.out.print("\033["+(this.buff_length()-this.cursor)+"C");
-        this.cursor=this.buff.length();
+    public int gotoFIN(){
+        int cur_cursor = this.buff_length() - this.cursor;
+        this.cursor = this.buff.length();
+        return cur_cursor;
     }
 
-    public void dele(){
+    public boolean dele(){
+        boolean mode_d = false;
         if(this.cursor!=0){
             buff.deleteCharAt(this.cursor-1);
-            System.out.print("\033[1D");
-            System.out.print("\033[P");
+            
             this.cursor-=1;
+            mode_d = true;
         }
+        return mode_d;
     }
 
-    public void supr(){
+    public boolean supr(){
+        boolean mode = false;
         if(this.cursor<this.buff.length()){
-            buff.deleteCharAt(this.cursor);
-            System.out.print("\033[P");
-            
+            buff.deleteCharAt(this.cursor);   
+            mode = true;
         }
+        return mode;
     }
 
      /*
@@ -69,30 +77,35 @@ class Line {
         buff.insert(this.cursor, c);
         this.cursor+=1;
     }*/
-    public void modeINS(){
+    public int modeINS(){
+        int mode_i = 0;
         if(modo_ins==false){
+            mode_i = 1;
             modo_ins=true;
         }else{
+            mode_i = 2;
             modo_ins=false;
         }
+        return mode_i;
     }
     public void insert(char c){
         if(this.cursor==this.buff.capacity()){
             StringBuffer buff2 = new StringBuffer(BUFFER_CAPACITY);
            buff.append(buff2);
        }
-        if(modo_ins && this.cursor  < this.buff_length()){
-            System.out.print("\033[4l");
+        if(modo_ins && this.cursor  < this.buff_length()){          
             buff.setCharAt(this.cursor, c);
             this.cursor+=1;
+            
         }else{
             if(this.cursor  < this.buff_length()){
-                
-                System.out.print("\033[4h");
+
             }
             buff.insert(this.cursor, c);
             this.cursor+=1;
         }
+
+        
     }
 
 

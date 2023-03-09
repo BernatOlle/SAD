@@ -7,11 +7,15 @@ import java.io.*;
 class EditableBufferedReader extends BufferedReader {
     
     private boolean key;
-    Line ret= new Line();
+    public final Line ret;
+    public final Console console;
 
     public EditableBufferedReader(Reader in) {
         super(in);
         this.key = false;
+        this.ret = new Line();
+        this.console = new Console(ret);
+        this.ret.addObserver(console);
 
     }
 
@@ -81,7 +85,7 @@ class EditableBufferedReader extends BufferedReader {
         int number;
 
         setRaw();
-        
+        System.out.print("\033[4h");
         do{
             if(c==Constants.EXIT){
                 unsetRaw();
@@ -91,33 +95,47 @@ class EditableBufferedReader extends BufferedReader {
             if(this.key==true){
                 switch(number){
                     case Constants.RIGHT_ARROW:
-                        ret.moveR();  
+                        ret.moveR(); 
+                        System.out.print("\033[1C"); 
                         break;
-                    case Constants.LEFT_ARROW:
+                    case Constants.LEFT_ARROW:                      
                         ret.moveL();
+                        System.out.print("\033[1D");
                           break;
                     case Constants.INI_BUTTON:
-                        ret.gotoINI();                        
+                        System.out.print("\033["+ret.gotoINI()+"D");                        
                          break;
                     case Constants.FIN_BUTTON:
-                    
-                        ret.gotoFIN();  
+                        System.out.print("\033["+ret.gotoFIN()+"C");
                          break;
                     case Constants.INS_BUTTON:
-                        ret.modeINS();
+                        int mode_i = ret.modeINS();
+                        if(mode_i== 1){
+                            System.out.print("\033[4l");
+                        }else if(mode_i == 2){
+                            System.out.print("\033[4h");
+                        }
+               
                          break;
                     case Constants.SUPR_BUTTON:  
-                        ret.supr();        
+                        boolean mode = ret.supr();      
+                        if(mode) System.out.print("\033[P");
                         break;
                     case Constants.DEL_BUTTON:
-                        ret.dele();
+                        boolean mode_d = ret.dele();
+                        if(mode_d){
+                            System.out.print("\033[1D");
+                            System.out.print("\033[P");   
+                        }
                         break;
                 }
                 
             }
             else if(number!=13){
-               c = (char) number;
+               c = (char) number; 
                ret.insert(c);
+               
+               
                System.out.print(c);
             }   
             
