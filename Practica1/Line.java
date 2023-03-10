@@ -78,14 +78,17 @@ public class Line extends Observable {
         this.cursor+=1;
     }*/
     public int modeINS(){
-        int mode_i = 0;
-        if(modo_ins==false){
+        modo_ins = !modo_ins;
+        int mode_i = 1;
+        /*   
+        if(!modo_ins){
             mode_i = 1;
             modo_ins=true;
         }else{
             mode_i = 2;
             modo_ins=false;
         }
+        */
         return mode_i;
     }
     public void insert(char c){
