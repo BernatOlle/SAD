@@ -14,27 +14,33 @@ public class Console implements Observer {
 		//System.out.print(seq);
 
 		switch (seq){
-			case SpecialKeys.BACKSPACE:
-				System.out.print(String.format("%c[D", 27));
-				System.out.print(String.format("%c[P", 27));
+			case Constants.SUPR_BUTTON:
+				System.out.print("\033[1D");
+				System.out.print("\033[P"); 
 				break;
-			case SpecialKeys.FLETXA_ESQ:
-				System.out.print(String.format("%c[D", 27));
+			case Constants.LEFT_ARROW:
+				System.out.print("\033[1D");
 				break;
-			case SpecialKeys.FLETXA_DRT:
-				System.out.print(String.format("%c[C", 27));
+			case Constants.RIGHT_ARROW:
+				System.out.print("\033[1C"); 
 				break;
-			case SpecialKeys.HOME:
-				System.out.print(String.format("%c[G", 27));
+			case Constants.INI_BUTTON:
+				System.out.print("\033["+ret.gotoINI()+"D"); 
 				break;
-			case SpecialKeys.FIN:
-				System.out.print(String.format("%c["+(this.line.getSize()+1)+"G", 27));
+			case Constants.FIN_BUTTON:
+				System.out.print("\033["+ret.gotoFIN()+"C");
 				break;
-			case SpecialKeys.SUPRIMIR:
-				System.out.print(String.format("%c[P", 27));
+			case Constants.DEL_BUTTON:
+				System.out.print("\033[1D");
+				System.out.print("\033[P");  
 				break;
-			case SpecialKeys.INSERT:
-				System.out.print(String.format("%c[1@", 27));
+			case Constants.INS_BUTTON:
+				int mode_i = ret.modeINS();
+				if(mode_i== 1){
+					System.out.print("\033[4l");
+				}else if(mode_i == 2){
+					System.out.print("\033[4h");
+				}
 				break;
 		}
 	}
