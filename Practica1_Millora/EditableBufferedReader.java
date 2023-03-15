@@ -6,8 +6,8 @@ import java.io.*;
 		ESC parser:
 		RIGHT:	ESC [ C
 		LEFT:	ESC [ D
-		HOME:	ESC O H, ESC [ 1 ~ (keypad)
-		END:	ESC O F, ESC [ 4 ~ (keypad)
+		HOME:	ESC [ H
+		END:	ESC [ F
 		INS:	ESC [ 2 ~
 		DEL:	ESC [ 3 ~
 	*/
@@ -49,23 +49,35 @@ class EditableBufferedReader extends BufferedReader {
 
     private String readAll() throws IOException{
         StringBuffer str = new StringBuffer();
-        int charac;
+        int charac,i=0;
+        int[] mouse=new int[4];
+        
         do{
             charac = super.read();
+            /*
+            mouse[i]= charac;
+            i=i+1;
+            if(mouse[0]==27 && mouse[1]==91 && mouse[2]==77 && mouse[3]==32){
+                return "Mouse";
+            }
+            */
             if(charac == Key.DEL){
                 return "DEL";
             }
-            //System.out.println((char)charac);
-            str.append((char) charac);
             
+            str.append((char) charac);
+           
         }while(super.ready());
-
+    
         return str.toString();
     }
 
     public int read() throws IOException {
 
         String str = readAll();
+        if(str.contains("\033[M ")){
+            str = "Mouse";
+        }
         int character;
         switch(str){
             case "\033[C":
@@ -80,12 +92,19 @@ class EditableBufferedReader extends BufferedReader {
                 return Key.INS_BUTTON;
             case "\033[3~":
                 return Key.SUPR_BUTTON;
+            case "Mouse":
+                System.out.print(str.substring(3));
+                return 0;
             case "DEL":
                 return Key.DEL_BUTTON;
         }
         character = str.toCharArray()[0];
         return character;
 
+    }
+
+    private void activate_mouse(){
+        System.out.print("\033[?9h");
     }
 
     /* (non-Javadoc)
@@ -95,6 +114,7 @@ class EditableBufferedReader extends BufferedReader {
     public String readLine() throws IOException{
         Line ret = new Line();
         Console console = new Console(ret);
+        this.activate_mouse();
         ret.addObserver(console);
         int ch;
         try{       
