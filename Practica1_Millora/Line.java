@@ -6,11 +6,13 @@ public class Line extends Observable {
     private StringBuffer buff;
     private int cursor;
     private boolean modo_ins;
+    private int pos_cursor_VERTICAL;
 
     public Line(){
         this.buff= new StringBuffer(BUFFER_CAPACITY);
         this.cursor=0;
         this.modo_ins = false;
+        this.pos_cursor_VERTICAL=0;
     }
 
     public int buff_length(){
@@ -85,7 +87,6 @@ public class Line extends Observable {
            
        }
         if(modo_ins && this.cursor < this.buff_length()){  
-                   
             buff.setCharAt(this.cursor, c);
             this.cursor+=1;
             
@@ -102,10 +103,24 @@ public class Line extends Observable {
         
     }
 
-
-
     public String toString(){
         return this.buff.toString();
     }
+
+    public void move_Cursor(int pos[]){
+        setChanged();
+        this.cursor=pos[0];
+        if(pos[0]> this.buff_length()){
+            this.cursor=this.buff_length();
+        }
+        this.pos_cursor_VERTICAL= pos[1];
+        notifyObservers(Key.CLICK_DRET);
+    }
        
+    public int[] get_Cursor(){
+         int[] pos = new int[2];
+         pos[0]= this.cursor;
+         pos[1]= this.pos_cursor_VERTICAL;
+         return pos;
+    }
 }

@@ -10,6 +10,7 @@ public class Key {
                             BKSP_BUTTON = RIGHT_ARROW-4,
                             DEL_BUTTON = RIGHT_ARROW-5,
                             SUPR_BUTTON = RIGHT_ARROW-6,
+                            CLICK_DRET = RIGHT_ARROW-8,
                             INS_BUTTON = RIGHT_ARROW-7;
 
     public static final int EXIT = 13,

@@ -13,9 +13,11 @@ import java.io.*;
 	*/
 
 class EditableBufferedReader extends BufferedReader {
-
+    private int [] pos_cursor= new int[2];
     public EditableBufferedReader(Reader in) {
         super(in);
+        this.pos_cursor[0]=0;
+        this.pos_cursor[1]=0;
     }
 
     public void setRaw(){
@@ -54,13 +56,6 @@ class EditableBufferedReader extends BufferedReader {
         
         do{
             charac = super.read();
-            /*
-            mouse[i]= charac;
-            i=i+1;
-            if(mouse[0]==27 && mouse[1]==91 && mouse[2]==77 && mouse[3]==32){
-                return "Mouse";
-            }
-            */
             if(charac == Key.DEL){
                 return "DEL";
             }
@@ -68,14 +63,22 @@ class EditableBufferedReader extends BufferedReader {
             str.append((char) charac);
            
         }while(super.ready());
-    
         return str.toString();
     }
 
+    public void get_position(String str){
+        char[] car = str.toCharArray();
+        char [] pos = new char[2];
+        pos[0] = car[4];
+        pos[1]= car[5];
+        pos_cursor[0] = ((int) pos[0])-33;
+        pos_cursor[1]= (int) pos[1];
+    }
+    
     public int read() throws IOException {
-
         String str = readAll();
         if(str.contains("\033[M ")){
+            get_position(str);
             str = "Mouse";
         }
         int character;
@@ -93,8 +96,7 @@ class EditableBufferedReader extends BufferedReader {
             case "\033[3~":
                 return Key.SUPR_BUTTON;
             case "Mouse":
-                System.out.print(str.substring(3));
-                return 0;
+                return Key.CLICK_DRET;
             case "DEL":
                 return Key.DEL_BUTTON;
         }
@@ -106,6 +108,9 @@ class EditableBufferedReader extends BufferedReader {
     private void activate_mouse(){
         System.out.print("\033[?9h");
     }
+    private void desactivate_mouse(){
+        System.out.print("\033[?9l");
+    } 
 
     /* (non-Javadoc)
      * @see java.io.BufferedReader#readLine()
@@ -119,7 +124,7 @@ class EditableBufferedReader extends BufferedReader {
         int ch;
         try{       
             setRaw();
-            while((ch = read()) != Key.EXIT){       
+            while((ch = read()) != Key.EXIT){    
                 switch(ch){
                     case Key.RIGHT_ARROW:
                         ret.moveR();  
@@ -142,6 +147,9 @@ class EditableBufferedReader extends BufferedReader {
                     case Key.DEL_BUTTON:
                         ret.dele();
                         break;
+                    case Key.CLICK_DRET:
+                        ret.move_Cursor(pos_cursor);
+                        break;
                     default:
                         char c = (char) ch; 
                         ret.insert(c);
@@ -150,7 +158,9 @@ class EditableBufferedReader extends BufferedReader {
                
         }
         unsetRaw();
+        desactivate_mouse();
         return ret.toString();
+        
         }finally{
             unsetRaw();
         }

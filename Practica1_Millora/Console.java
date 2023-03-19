@@ -26,6 +26,10 @@ public class Console implements Observer {
 			case Key.INI_BUTTON:
 				System.out.print("\033[G"); 
 				break;
+			case Key.CLICK_DRET:
+				int pos[] = line.get_Cursor();
+				System.out.print("\033["+pos[1]+";"+(pos[0]+1)+"H");
+				break;
 			case Key.FIN_BUTTON:
 				System.out.print("\033["+(this.line.buff_length()+1)+"G");
 				break;
