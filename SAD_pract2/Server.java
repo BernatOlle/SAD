@@ -19,7 +19,7 @@ public class Server {
                 String linia;
                 while((linia = socket.read_line()) != null){
                     
-                    if(linia.equals("exit")){
+                    if(linia.matches("exit")){
                             System.out.println("ha sortit " + nickname);
                             linia= "ha sortit del chat" ;        
                             diccionari.remove(nickname);

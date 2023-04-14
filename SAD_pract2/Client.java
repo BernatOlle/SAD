@@ -21,6 +21,7 @@ public class Client {
                                     break;   
                                 }
                             }
+                            sc.write_line("exit");
                             sc.close();
                         } catch (IOException e) {
                             // TODO Auto-generated catch block
@@ -35,7 +36,7 @@ public class Client {
             public void run(){
                 String linia;
                     while((linia = sc.read_line()) != null){
-                        if(linia == "exit"){
+                        if(linia.matches("exit")){
                             break;
                         }
                         System.out.println(linia);
