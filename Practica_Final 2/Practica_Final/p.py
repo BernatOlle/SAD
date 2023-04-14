@@ -31,4 +31,5 @@ class Piece  :
     peo6_B = 30
     peo7_B = 31
     peo8_B = 32
+   #hola
        
