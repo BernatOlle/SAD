@@ -1,5 +1,5 @@
 import pygame
-from p import  Piece 
+from Practica_Final1.p import  Piece 
 
 
 class Player():
@@ -9,7 +9,7 @@ class Player():
         self.width = width
         self.height = height
         self.color = color
-        self.piece = []
+        self.draw_piece = []
         self.put_pieces(x ,y ,width, height)
         self.vel = 1
         
