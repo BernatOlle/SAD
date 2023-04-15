@@ -13,7 +13,14 @@ square_size = width/8
 
 
 def redrawWindow(player,player2, win):
-    win.fill((255, 255, 255))
+    for row in range(8):
+        for col in range (8):
+            x= col * square_size
+            y=row * square_size
+            if(col+row)%2 ==0 :
+                pygame.draw.rect(win, black,(x,y,square_size,square_size))
+            else:
+                pygame.draw.rect(win, white, (x,y,square_size,square_size))             
     player.draw(win)
     player2.draw(win)
     pygame.display.update()
