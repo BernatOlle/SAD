@@ -17,7 +17,7 @@ except socket.error as e:
 s.listen(2) #escolta fins que es connecten dos clients 
 print("Waiting for a connection, Server Started")
 
-players = [Player(10,10,50,50,(255,0,0)), Player(10+100*6,10,50,50 ,(0,0,255))]
+players = [Player(10,10,50,50,(255,0,0)), Player(10,10+100*6,50,50 ,(0,0,255))]
 # Player (posicio x inici, posicio y inici , weigth , length , color )
 
 def threaded_client(conn, player):
