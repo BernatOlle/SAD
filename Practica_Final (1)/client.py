@@ -2,10 +2,13 @@ import pygame
 from network import Network
 from player import Player
 
-width = 500
-height = 500
+width = 800
+height = 800
 win = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Client")
+pygame.display.set_caption("Joc ajedrez")
+white=(255,255,255)
+black=(0,0,0)
+square_size = width/8
 
 
 
