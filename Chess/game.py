@@ -9,7 +9,6 @@ class Game:
         self.pieces2 = []
         self.all_pieces = self.put_pieces()
         self.wins = [0, 0]
-        self.ties = 0
         self.piece_sel = -1
     
     def put_pieces(self):
