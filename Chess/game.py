@@ -10,6 +10,7 @@ class Game:
         self.all_pieces = self.put_pieces()
         self.wins = [0, 0]
         self.piece_sel = -1
+        #hola anna
     
     def put_pieces(self):
         k=0
