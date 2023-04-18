@@ -4,14 +4,14 @@ class Game:
         self.turn = [True,False]
         self.move = [False, False]
         self.ready = False
+        self.moveCorrect = False
         self.id = id
         self.pieces1 = []
         self.pieces2 = []
         self.all_pieces = self.put_pieces()
         self.wins = [0, 0]
         self.piece_sel = -1
-        #hola anna
-    
+        
     def put_pieces(self):
         k=0
         for y in range(2):
@@ -46,6 +46,19 @@ class Game:
                 print("Selecionada figura pos:",pos)
             elif self.move[player] == True:
                 x,y = move.split(",")
+                x_vella= self.all_pieces[player][pos][0]
+                y_vella=self.all_pieces[player][pos][1]
+                
+                print("x_vella" , x_vella)
+                print("x_nova ",x[1] )
+                
+                if(pos==0 | pos==7):
+                    self.moveCorrect=self.verificarTorre(x_vella,y_vella,x,y)
+                if(pos==2 | pos==6):
+                    self.moveCorrect=self.verificarCaball()
+                    
+                    
+                #if self.moveCorrect:
                 self.all_pieces[player][self.piece_sel] = (int(x[1]),int(y[1]))
                 self.move[player] = False
                 self.turn[player] = False
@@ -54,8 +67,14 @@ class Game:
                 else:
                     self.turn[1] = True
                 
-                
-
+    
+    def verificarTorre():
+        
+        return True    
+    def verificarCaball(self):
+        
+        return True
+    
     def connected(self):
         return self.ready
 
