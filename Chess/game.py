@@ -25,6 +25,11 @@ class Game:
         return self.all_pieces[p]
     
     def get_piece(self,p,move):
+        '''
+        move = [x, y]
+        x = [x
+        y =  y]        
+        '''
         x,y = move.split(",")
         move = [int(x[1]),int(y[1])]
         print(move)
