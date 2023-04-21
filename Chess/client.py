@@ -4,7 +4,7 @@ import pickle
 pygame.font.init()
 #funcioa
 width = 800
-height = 800
+height = 850
 white = (255, 255, 255)
 black = (0, 0, 0)
 red = (255,0,0)
@@ -51,16 +51,23 @@ def redrawWindow(win, game, p):
                 x = col * square_size
                 y = row * square_size
                 if (col+row) % 2 == 0:
-                    pygame.draw.rect(win, black, (x, y, square_size, square_size))
+                    pygame.draw.rect(win, black, (x, y+50, square_size, square_size))
                 else:
-                    pygame.draw.rect(win, white, (x, y, square_size, square_size))
+                    pygame.draw.rect(win, white, (x, y+50, square_size, square_size))
         
         pieces_p1 = game.get_player_pieces(0)
         pieces_p2 = game.get_player_pieces(1)
         
         for i in range(len(pieces_p1)):  
-            pygame.draw.rect(win,red,(pieces_p1[i][0]*100+10,pieces_p1[i][1]*100 + 10,80,80))
-            pygame.draw.rect(win,blue,(pieces_p2[i][0]*100+10,pieces_p2[i][1]*100 + 10,80,80))
+            pygame.draw.rect(win,red,(pieces_p1[i][0]*100+10,pieces_p1[i][1]*100 +50+ 10,80,80))
+            pygame.draw.rect(win,blue,(pieces_p2[i][0]*100+10,pieces_p2[i][1]*100 +50+ 10,80,80))
+            
+        font = pygame.font.SysFont("arial", 40)
+        if game.get_turn(p):
+            text = font.render("Your turn", 1, (255,255,255), True)
+        else:
+            text = font.render("Opponent turn", 1, (255,255,255), True)
+        win.blit(text, (width/2 - text.get_width()/2, 15 - text.get_height()/2))
                     
     pygame.display.update()
 
@@ -91,7 +98,7 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x,y = pygame.mouse.get_pos()
-                pos = [x//100,y//100]
+                pos = [x//100,(y-50)//100]
                 n.send(str(pos))
 
         redrawWindow(win, game, player)
