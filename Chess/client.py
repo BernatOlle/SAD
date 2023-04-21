@@ -58,15 +58,9 @@ def redrawWindow(win, game, p):
         pieces_p1 = game.get_player_pieces(0)
         pieces_p2 = game.get_player_pieces(1)
         
-        for i in range(len(pieces_p1)):
-            if p == 0:
-                color1 = red
-                color2 = blue
-            else:
-                color1 = blue
-                color2 = red    
-            pygame.draw.rect(win,color1,(pieces_p1[i][0]*100+10,pieces_p1[i][1]*100 + 10,80,80))
-            pygame.draw.rect(win,color2,(pieces_p2[i][0]*100+10,pieces_p2[i][1]*100 + 10,80,80))
+        for i in range(len(pieces_p1)):  
+            pygame.draw.rect(win,red,(pieces_p1[i][0]*100+10,pieces_p1[i][1]*100 + 10,80,80))
+            pygame.draw.rect(win,blue,(pieces_p2[i][0]*100+10,pieces_p2[i][1]*100 + 10,80,80))
                     
     pygame.display.update()
 
