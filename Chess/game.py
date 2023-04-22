@@ -61,6 +61,7 @@ class Game:
                     self.moveCorrect=self.verificarCaball(x_vella,y_vella,int(x[1]),int(y[1]))
                 elif(self.piece_sel==8 or self.piece_sel==9 or self.piece_sel==10 or self.piece_sel==11 or self.piece_sel==12 or self.piece_sel==13 or self.piece_sel==14 or self.piece_sel ==15 ):
                     self.moveCorrect=self.verificarPeo(x_vella,y_vella,int(x[1]),int(y[1]),player)
+                    #self.kill_piece(player,int(x[1]),int(y[1]))
                 elif(self.piece_sel==2 or self.piece_sel==5):
                     self.moveCorrect=self.verificarAlfil(x_vella,y_vella,int(x[1]),int(y[1]))
                 elif self.piece_sel==3:
@@ -79,18 +80,50 @@ class Game:
                 
     def verificarPeo(self, x_vella,y_vella,x_nova,y_nova,player):
         peo = False
+        p = 0 if player == 1 else 1
+        coordenada = (x_nova,y_nova)
+        if coordenada in self.all_pieces[p]:
+            pos=1
+        else:
+            pos=-1
         if player == 0:
             if x_nova==x_vella and y_nova==y_vella+1:
                 peo=True
+            elif x_nova==x_vella and y_nova==y_vella+2 and y_vella==1:
+                peo=True
+            elif pos!=-1 and x_nova==x_vella+1 and y_nova==y_vella+1:
+               peo=True
+               self.kill_piece(p,x_nova,y_nova)
+            elif pos!=-1 and x_nova==x_vella-1 and y_nova==y_vella+1:
+                peo=True
+                self.kill_piece(p,x_nova,y_nova)
         if player == 1:
             if x_nova==x_vella and y_nova==y_vella-1:
                 peo=True
+            elif x_nova==x_vella and y_nova==y_vella-2 and y_vella==6:
+                peo=True 
+            elif pos!=-1 and x_nova==x_vella-1 and y_nova==y_vella-1:
+                peo=True
+                self.kill_piece(p,x_nova,y_nova)
+            elif pos!=-1 and x_nova==x_vella+1 and y_nova==y_vella-1:
+                peo=True
+                self.kill_piece(p,x_nova,y_nova)
         return peo
     
+    def kill_piece(self,player,x_nova,y_nova):
+        #NO SE PQ NO FUNCIONA SI HO CRIDO DESDE PEO SI QUE FUNCIONA PERO SI HO CRIDO DESDE
+        #EL PLAY ES BUGUEJA EL JOC I ES TANCA 
+        coordenada = (x_nova,y_nova)
+        #p = 0 if player == 1 else 1
+        pos = self.all_pieces[player].index(coordenada)
+        self.all_pieces[player][pos]=(0,0)
+        print("HAS MATAT!")
+        
     def verificarTorre(self,x_vella,y_vella,x_nova,y_nova):
         Torre=False
         if (x_vella!=x_nova and y_vella==y_nova) or (x_nova==x_vella and y_nova!=y_vella):
             Torre=True
+            
         return Torre 
      
     def verificarCaball(self,x_vella,y_vella,x_nova,y_nova):
@@ -143,27 +176,6 @@ class Game:
 
     def bothWent(self):
         return self.p1Went and self.p2Went
-
-    def winner(self):
-
-        p1 = self.moves[0].upper()[0]
-        p2 = self.moves[1].upper()[0]
-
-        winner = -1
-        if p1 == "R" and p2 == "S":
-            winner = 0
-        elif p1 == "S" and p2 == "R":
-            winner = 1
-        elif p1 == "P" and p2 == "R":
-            winner = 0
-        elif p1 == "R" and p2 == "P":
-            winner = 1
-        elif p1 == "S" and p2 == "P":
-            winner = 0
-        elif p1 == "P" and p2 == "S":
-            winner = 1
-
-        return winner
 
     def resetWent(self):
         self.p1Went = False
