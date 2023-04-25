@@ -40,7 +40,13 @@ class Button:
 
 def redrawWindow(win, game, p):
     win.fill((128,128,128))
-
+    
+    image_peon_B = pygame.image.load("peon_blanco.png")
+    image_peon1=  pygame.transform.scale(image_peon_B, (80, 80))
+    image_peon_N = pygame.image.load("peon_negro.png")
+    image_peon2=  pygame.transform.scale(image_peon_N, (80, 80))
+    
+    
     if not (game.connected()):
         font = pygame.font.SysFont("comicsans", 80)
         text = font.render("Waiting for Player...", 1, (255,0,0), True)
@@ -59,9 +65,10 @@ def redrawWindow(win, game, p):
         pieces_p2 = game.get_player_pieces(1)
         
         for i in range(len(pieces_p1)):  
-            pygame.draw.rect(win,red,(pieces_p1[i][0]*100+10,pieces_p1[i][1]*100 +50+ 10,80,80))
-            pygame.draw.rect(win,blue,(pieces_p2[i][0]*100+10,pieces_p2[i][1]*100 +50+ 10,80,80))
-            
+            #pygame.draw.rect(win,red,(pieces_p1[i][0]*100+10,pieces_p1[i][1]*100 +50+ 10,80,80))
+            win.blit(image_peon1, (pieces_p1[i][0]*100+10, pieces_p1[i][1]*100+50+10))
+            #pygame.draw.rect(win,blue,(pieces_p2[i][0]*100+10,pieces_p2[i][1]*100 +50+ 10,80,80))
+            win.blit(image_peon2, (pieces_p2[i][0]*100+10, pieces_p2[i][1]*100+50+10))
         font = pygame.font.SysFont("arial", 40)
         if game.get_turn(p):
             text = font.render("Your turn", 1, (255,255,255), True)

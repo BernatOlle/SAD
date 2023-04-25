@@ -61,7 +61,7 @@ class Game:
                     self.moveCorrect=self.verificarCaball(x_vella,y_vella,int(x[1]),int(y[1]))
                 elif(self.piece_sel==8 or self.piece_sel==9 or self.piece_sel==10 or self.piece_sel==11 or self.piece_sel==12 or self.piece_sel==13 or self.piece_sel==14 or self.piece_sel ==15 ):
                     self.moveCorrect=self.verificarPeo(x_vella,y_vella,int(x[1]),int(y[1]),player)
-                    #self.kill_piece(player,int(x[1]),int(y[1]))
+                    self.kill_piece(player,int(x[1]),int(y[1]))
                 elif(self.piece_sel==2 or self.piece_sel==5):
                     self.moveCorrect=self.verificarAlfil(x_vella,y_vella,int(x[1]),int(y[1]))
                 elif self.piece_sel==3:
@@ -70,6 +70,7 @@ class Game:
                     print("Verifica REI ")
                     self.moveCorrect=self.verificarRei(x_vella,y_vella,int(x[1]),int(y[1]))
                 if self.moveCorrect:
+                    self.kill_piece(player,int(x[1]),int(y[1]))
                     self.all_pieces[player][self.piece_sel] = (int(x[1]),int(y[1]))
                     self.move[player] = False
                     self.turn[player] = False
@@ -93,10 +94,10 @@ class Game:
                 peo=True
             elif pos!=-1 and x_nova==x_vella+1 and y_nova==y_vella+1:
                peo=True
-               self.kill_piece(p,x_nova,y_nova)
+               
             elif pos!=-1 and x_nova==x_vella-1 and y_nova==y_vella+1:
                 peo=True
-                self.kill_piece(p,x_nova,y_nova)
+               
         if player == 1:
             if x_nova==x_vella and y_nova==y_vella-1:
                 peo=True
@@ -104,20 +105,22 @@ class Game:
                 peo=True 
             elif pos!=-1 and x_nova==x_vella-1 and y_nova==y_vella-1:
                 peo=True
-                self.kill_piece(p,x_nova,y_nova)
+                
             elif pos!=-1 and x_nova==x_vella+1 and y_nova==y_vella-1:
                 peo=True
-                self.kill_piece(p,x_nova,y_nova)
+               
         return peo
     
     def kill_piece(self,player,x_nova,y_nova):
-        #NO SE PQ NO FUNCIONA SI HO CRIDO DESDE PEO SI QUE FUNCIONA PERO SI HO CRIDO DESDE
-        #EL PLAY ES BUGUEJA EL JOC I ES TANCA 
         coordenada = (x_nova,y_nova)
-        #p = 0 if player == 1 else 1
-        pos = self.all_pieces[player].index(coordenada)
-        self.all_pieces[player][pos]=(0,0)
-        print("HAS MATAT!")
+        p = 0 if player == 1 else 1
+        try:
+            pos = self.all_pieces[p].index(coordenada)
+        except: 
+            pos = -1 
+        if(pos != -1):  
+            self.all_pieces[p][pos]=(0,0)
+            print("HAS MATAT!")
         
     def verificarTorre(self,x_vella,y_vella,x_nova,y_nova):
         Torre=False
@@ -148,17 +151,15 @@ class Game:
     
     def verificarRei(self,x_vella,y_vella,x_nova,y_nova):
         Rei = False
-        print("Verificació ....")
-        
         if (x_vella-x_nova==1 and y_nova==y_vella) or (x_vella-x_nova==-1 and y_nova==y_vella):
-            print("CORRECTE")
+         
             Rei = True
         elif (y_vella-y_nova==1 and x_nova==x_vella) or (y_vella-y_nova==-1 and x_nova==x_vella):
             Rei = True
-            print("CORRECTE")
+           
         elif (y_vella==y_nova+1 and x_vella==x_nova+1) or (y_vella==y_nova-1 and x_vella==x_nova-1) or (y_vella==y_nova+1 and x_vella==x_nova-1) or (y_vella==y_nova-1 and x_vella==x_nova+1):
             Rei=True
-            print("CORRECTE")
+            
         return Rei
     
     def verificarReina (self,x_vella,y_vella,x_nova,y_nova):
