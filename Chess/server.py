@@ -3,7 +3,7 @@ from _thread import *
 import pickle
 from game import Game
 
-server = "10.192.153.127"
+server = "10.192.155.249"
 
 port = 5555
 

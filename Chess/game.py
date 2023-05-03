@@ -13,6 +13,7 @@ class Game:
         self.all_pieces = self.put_pieces()
         self.wins = [0, 0]
         self.piece_sel = -1
+        self.partida = True
         
     def put_pieces(self):
         k=0
@@ -53,8 +54,7 @@ class Game:
                 x,y = move.split(",")
                 x_vella= self.all_pieces[player][self.piece_sel][0]
                 y_vella=self.all_pieces[player][self.piece_sel][1]
-                
-                print("LA POSICIO ES = ", pos)
+
                 if(self.piece_sel==0 or self.piece_sel==7):
                     self.moveCorrect=self.verificarTorre(x_vella,y_vella,int(x[1]),int(y[1]))
                 elif(self.piece_sel==1 or self.piece_sel==6):
@@ -64,10 +64,9 @@ class Game:
                     self.kill_piece(player,int(x[1]),int(y[1]))
                 elif(self.piece_sel==2 or self.piece_sel==5):
                     self.moveCorrect=self.verificarAlfil(x_vella,y_vella,int(x[1]),int(y[1]))
-                elif self.piece_sel==3:
-                    self.moveCorrect=self.verificarReina(x_vella,y_vella,int(x[1]),int(y[1]))
                 elif self.piece_sel==4:
-                    print("Verifica REI ")
+                    self.moveCorrect=self.verificarReina(x_vella,y_vella,int(x[1]),int(y[1]))
+                elif self.piece_sel==3:
                     self.moveCorrect=self.verificarRei(x_vella,y_vella,int(x[1]),int(y[1]))
                 if self.moveCorrect:
                     self.kill_piece(player,int(x[1]),int(y[1]))
@@ -78,6 +77,8 @@ class Game:
                         self.turn[0] = True
                     else:
                         self.turn[1] = True
+                        
+        return    
                 
     def verificarPeo(self, x_vella,y_vella,x_nova,y_nova,player):
         peo = False
@@ -118,10 +119,15 @@ class Game:
             pos = self.all_pieces[p].index(coordenada)
         except: 
             pos = -1 
-        if(pos != -1):  
-            self.all_pieces[p][pos]=(0,0)
+        if(pos != -1): 
+            if pos==4:
+                self.partida=False
+            self.all_pieces[p][pos]=(-1,-1)
             print("HAS MATAT!")
-        
+    
+    def get_partida(self):
+        return self.partida
+    
     def verificarTorre(self,x_vella,y_vella,x_nova,y_nova):
         Torre=False
         if (x_vella!=x_nova and y_vella==y_nova) or (x_nova==x_vella and y_nova!=y_vella):
@@ -172,6 +178,7 @@ class Game:
             Reina=True
         return Reina
 
+        
     def connected(self):
         return self.ready
 

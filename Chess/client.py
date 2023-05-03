@@ -41,11 +41,24 @@ class Button:
 def redrawWindow(win, game, p):
     win.fill((128,128,128))
     
-    image_peon_B = pygame.image.load("peon_blanco.png")
-    image_peon1=  pygame.transform.scale(image_peon_B, (80, 80))
-    image_peon_N = pygame.image.load("peon_negro.png")
-    image_peon2=  pygame.transform.scale(image_peon_N, (80, 80))
+    image_peon_N=  pygame.transform.scale(pygame.image.load("peon_negre.png"), (80, 80))
+    image_alfil_N = pygame.transform.scale(pygame.image.load("alfil_negre.png"), (80, 80))
+    image_caball_N = pygame.transform.scale(pygame.image.load("caball_negre.png"), (80, 80))
+    image_rei_N = pygame.transform.scale(pygame.image.load("rei_negre.png"), (80, 80))
+    image_reina_N = pygame.transform.scale(pygame.image.load("reina_negre.png"), (80, 80))
+    image_torre_N = pygame.transform.scale(pygame.image.load("torre_negre.png"), (80, 80))
     
+    image_peon_B=  pygame.transform.scale(pygame.image.load("peon_blanc.png"), (80, 80))
+    image_alfil_B = pygame.transform.scale(pygame.image.load("alfil_blanc.png"), (80, 80))
+    image_caball_B = pygame.transform.scale(pygame.image.load("caball_blanc.png"), (80, 80))
+    image_rei_B = pygame.transform.scale(pygame.image.load("rei_blanc.png"), (80, 80))
+    image_reina_B = pygame.transform.scale(pygame.image.load("reina_blanc.png"), (80, 80))
+    image_torre_B = pygame.transform.scale(pygame.image.load("torre_blanc.png"), (80, 80))
+    
+    images_fitxes = [image_torre_B, image_caball_B ,image_alfil_B, image_rei_B , image_reina_B,image_alfil_B ,image_caball_B, image_torre_B,
+                     image_peon_B,image_peon_B,image_peon_B,image_peon_B,image_peon_B,image_peon_B,image_peon_B,image_peon_B , 
+                     image_torre_N, image_caball_N ,image_alfil_N, image_rei_N , image_reina_N,image_alfil_N ,image_caball_N, image_torre_N,
+                     image_peon_N,image_peon_N,image_peon_N,image_peon_N,image_peon_N,image_peon_N,image_peon_N,image_peon_N]
     
     if not (game.connected()):
         font = pygame.font.SysFont("comicsans", 80)
@@ -65,16 +78,26 @@ def redrawWindow(win, game, p):
         pieces_p2 = game.get_player_pieces(1)
         
         for i in range(len(pieces_p1)):  
-            #pygame.draw.rect(win,red,(pieces_p1[i][0]*100+10,pieces_p1[i][1]*100 +50+ 10,80,80))
-            win.blit(image_peon1, (pieces_p1[i][0]*100+10, pieces_p1[i][1]*100+50+10))
-            #pygame.draw.rect(win,blue,(pieces_p2[i][0]*100+10,pieces_p2[i][1]*100 +50+ 10,80,80))
-            win.blit(image_peon2, (pieces_p2[i][0]*100+10, pieces_p2[i][1]*100+50+10))
-        font = pygame.font.SysFont("arial", 40)
-        if game.get_turn(p):
-            text = font.render("Your turn", 1, (255,255,255), True)
+            win.blit(images_fitxes[i], (pieces_p1[i][0]*100+10, pieces_p1[i][1]*100+50+10))
+            win.blit(images_fitxes[i+16], (pieces_p2[i][0]*100+10, pieces_p2[i][1]*100+50+10))
+        
+        if game.get_partida()==False:
+            font = pygame.font.SysFont("arial", 40)
+            text = font.render("Partida acabada ", 1, (255,255,255), True)
+            win.blit(text, (width/2 - text.get_width()/2, height/2 - text.get_height()/2))
+            if (game.get_turn(p)):
+                text= font.render("Has perdido", 1, (255,0,0), True)
+                win.blit(text, (width/2 - text.get_width()/2, height/2  + text.get_height()))
+            else:
+                text= font.render("Has ganado", 1, (255,0,0), True)
+                win.blit(text, (width/2 - text.get_width()/2, height/2  + text.get_height()))
         else:
-            text = font.render("Opponent turn", 1, (255,255,255), True)
-        win.blit(text, (width/2 - text.get_width()/2, 15 - text.get_height()/2))
+            font = pygame.font.SysFont("calibri", 30)
+            if game.get_turn(p):
+                text = font.render("Your turn", 1, (255,255,255), True)
+            else:
+                text = font.render("Opponent turn", 1, (255,255,255), True)
+            win.blit(text, (width/2 - text.get_width()/2, 15 - text.get_height()/2))
                     
     pygame.display.update()
 
