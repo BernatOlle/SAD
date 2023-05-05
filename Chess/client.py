@@ -13,47 +13,26 @@ square_size = width/8
 win = pygame.display.set_mode((width, height))
 
 
-
-class Button:
-    def __init__(self, text, x, y, color):
-        self.text = text
-        self.x = x
-        self.y = y
-        self.color = color
-        self.width = 150
-        self.height = 100
-
-    def draw(self, win):
-        pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.height))
-        font = pygame.font.SysFont("comicsans", 40)
-        text = font.render(self.text, 1, (255,255,255))
-        win.blit(text, (self.x + round(self.width/2) - round(text.get_width()/2), self.y + round(self.height/2) - round(text.get_height()/2)))
-
-    def click(self, pos):
-        x1 = pos[0]
-        y1 = pos[1]
-        if self.x <= x1 <= self.x + self.width and self.y <= y1 <= self.y + self.height:
-            return True
-        else:
-            return False
-
-
 def redrawWindow(win, game, p):
+    if p == 0:
+        fitxes = "Blanques"
+    else:
+        fitxes = "Negres"
     win.fill((128,128,128))
     
-    image_peon_N=  pygame.transform.scale(pygame.image.load("peon_negre.png"), (80, 80))
-    image_alfil_N = pygame.transform.scale(pygame.image.load("alfil_negre.png"), (80, 80))
-    image_caball_N = pygame.transform.scale(pygame.image.load("caball_negre.png"), (80, 80))
-    image_rei_N = pygame.transform.scale(pygame.image.load("rei_negre.png"), (80, 80))
-    image_reina_N = pygame.transform.scale(pygame.image.load("reina_negre.png"), (80, 80))
-    image_torre_N = pygame.transform.scale(pygame.image.load("torre_negre.png"), (80, 80))
+    image_peon_N=  pygame.transform.scale(pygame.image.load("images/peon_negre.png"), (80, 80))
+    image_alfil_N = pygame.transform.scale(pygame.image.load("images/alfil_negre.png"), (80, 80))
+    image_caball_N = pygame.transform.scale(pygame.image.load("images/caball_negre.png"), (80, 80))
+    image_rei_N = pygame.transform.scale(pygame.image.load("images/rei_negre.png"), (80, 80))
+    image_reina_N = pygame.transform.scale(pygame.image.load("images/reina_negre.png"), (80, 80))
+    image_torre_N = pygame.transform.scale(pygame.image.load("images/torre_negre.png"), (80, 80))
     
-    image_peon_B=  pygame.transform.scale(pygame.image.load("peon_blanc.png"), (80, 80))
-    image_alfil_B = pygame.transform.scale(pygame.image.load("alfil_blanc.png"), (80, 80))
-    image_caball_B = pygame.transform.scale(pygame.image.load("caball_blanc.png"), (80, 80))
-    image_rei_B = pygame.transform.scale(pygame.image.load("rei_blanc.png"), (80, 80))
-    image_reina_B = pygame.transform.scale(pygame.image.load("reina_blanc.png"), (80, 80))
-    image_torre_B = pygame.transform.scale(pygame.image.load("torre_blanc.png"), (80, 80))
+    image_peon_B=  pygame.transform.scale(pygame.image.load("images/peon_blanc.png"), (80, 80))
+    image_alfil_B = pygame.transform.scale(pygame.image.load("images/alfil_blanc.png"), (80, 80))
+    image_caball_B = pygame.transform.scale(pygame.image.load("images/caball_blanc.png"), (80, 80))
+    image_rei_B = pygame.transform.scale(pygame.image.load("images/rei_blanc.png"), (80, 80))
+    image_reina_B = pygame.transform.scale(pygame.image.load("images/reina_blanc.png"), (80, 80))
+    image_torre_B = pygame.transform.scale(pygame.image.load("images/torre_blanc.png"), (80, 80))
     
     images_fitxes = [image_torre_B, image_caball_B ,image_alfil_B, image_rei_B , image_reina_B,image_alfil_B ,image_caball_B, image_torre_B,
                      image_peon_B,image_peon_B,image_peon_B,image_peon_B,image_peon_B,image_peon_B,image_peon_B,image_peon_B , 
@@ -94,9 +73,9 @@ def redrawWindow(win, game, p):
         else:
             font = pygame.font.SysFont("calibri", 30)
             if game.get_turn(p):
-                text = font.render("Your turn", 1, (255,255,255), True)
+                text = font.render("Your turn "+fitxes, 1, (255,255,255), True)
             else:
-                text = font.render("Opponent turn", 1, (255,255,255), True)
+                text = font.render("Opponent turn "+fitxes, 1, (255,255,255), True)
             win.blit(text, (width/2 - text.get_width()/2, 15 - text.get_height()/2))
                     
     pygame.display.update()

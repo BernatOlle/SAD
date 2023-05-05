@@ -28,6 +28,7 @@ class Game:
         return self.all_pieces[p]
     
     def get_turn(self,p):
+        print(self.partida)
         return self.turn[p]
     
     def get_piece(self,p,move):
@@ -56,18 +57,18 @@ class Game:
                 y_vella=self.all_pieces[player][self.piece_sel][1]
 
                 if(self.piece_sel==0 or self.piece_sel==7):
-                    self.moveCorrect=self.verificarTorre(x_vella,y_vella,int(x[1]),int(y[1]))
+                    self.moveCorrect=self.verificarTorre(x_vella,y_vella,int(x[1]),int(y[1]),player)
                 elif(self.piece_sel==1 or self.piece_sel==6):
-                    self.moveCorrect=self.verificarCaball(x_vella,y_vella,int(x[1]),int(y[1]))
+                    self.moveCorrect=self.verificarCaball(x_vella,y_vella,int(x[1]),int(y[1]),player)
                 elif(self.piece_sel==8 or self.piece_sel==9 or self.piece_sel==10 or self.piece_sel==11 or self.piece_sel==12 or self.piece_sel==13 or self.piece_sel==14 or self.piece_sel ==15 ):
                     self.moveCorrect=self.verificarPeo(x_vella,y_vella,int(x[1]),int(y[1]),player)
                     self.kill_piece(player,int(x[1]),int(y[1]))
                 elif(self.piece_sel==2 or self.piece_sel==5):
-                    self.moveCorrect=self.verificarAlfil(x_vella,y_vella,int(x[1]),int(y[1]))
+                    self.moveCorrect=self.verificarAlfil(x_vella,y_vella,int(x[1]),int(y[1]),player)
                 elif self.piece_sel==4:
-                    self.moveCorrect=self.verificarReina(x_vella,y_vella,int(x[1]),int(y[1]))
+                    self.moveCorrect=self.verificarReina(x_vella,y_vella,int(x[1]),int(y[1]),player)
                 elif self.piece_sel==3:
-                    self.moveCorrect=self.verificarRei(x_vella,y_vella,int(x[1]),int(y[1]))
+                    self.moveCorrect=self.verificarRei(x_vella,y_vella,int(x[1]),int(y[1]),player)
                 if self.moveCorrect:
                     self.kill_piece(player,int(x[1]),int(y[1]))
                     self.all_pieces[player][self.piece_sel] = (int(x[1]),int(y[1]))
@@ -125,18 +126,21 @@ class Game:
             self.all_pieces[p][pos]=(-1,-1)
             print("HAS MATAT!")
     
+    def verificarTorre(self,x_vella,y_vella,x_nova,y_nova,player):
+        Torre=False
+        print("CHECK TORRE:")
+        if (x_vella!=x_nova and y_vella==y_nova) or (x_nova==x_vella and y_nova!=y_vella):
+            
+            Torre=self.check_straight((x_vella,y_vella),(x_nova,y_nova),player)
+            
+        return Torre 
+    
     def get_partida(self):
         return self.partida
     
-    def verificarTorre(self,x_vella,y_vella,x_nova,y_nova):
-        Torre=False
-        if (x_vella!=x_nova and y_vella==y_nova) or (x_nova==x_vella and y_nova!=y_vella):
-            Torre=True
-            
-        return Torre 
-     
-    def verificarCaball(self,x_vella,y_vella,x_nova,y_nova):
+    def verificarCaball(self,x_vella,y_vella,x_nova,y_nova,player):
         Caball=False
+        print("CHECK CABALL")
         diff_x = x_vella-x_nova
         diff_y= y_vella-y_nova
         if ((diff_x==1) and (diff_y==2)) or ((diff_x==-1) and (diff_y==2)) :
@@ -149,31 +153,36 @@ class Game:
             Caball=True
         return Caball
     
-    def verificarAlfil(self,x_vella,y_vella,x_nova,y_nova):
+    def verificarAlfil(self,x_vella,y_vella,x_nova,y_nova,player):
         Alfil=False
+        print("CHECK ALFIL")
         if (x_nova-x_vella==y_nova-y_vella) or (x_nova-x_vella==-(y_nova-y_vella)) :
-            Alfil=True
+            Alfil= self.check_diagonal((x_vella,y_vella),(x_nova,y_nova),player)
         return Alfil 
     
-    def verificarRei(self,x_vella,y_vella,x_nova,y_nova):
+    def verificarRei(self,x_vella,y_vella,x_nova,y_nova,player):
         Rei = False
+        print("CHEcK REI")
+        straight = self.check_straight((x_vella,y_vella),(x_nova,y_nova),player)
+        diagonal = self.check_diagonal((x_vella,y_vella),(x_nova,y_nova),player)
         if (x_vella-x_nova==1 and y_nova==y_vella) or (x_vella-x_nova==-1 and y_nova==y_vella):
-         
-            Rei = True
+            Rei = straight and diagonal
+            
         elif (y_vella-y_nova==1 and x_nova==x_vella) or (y_vella-y_nova==-1 and x_nova==x_vella):
-            Rei = True
+            Rei = straight and diagonal
            
         elif (y_vella==y_nova+1 and x_vella==x_nova+1) or (y_vella==y_nova-1 and x_vella==x_nova-1) or (y_vella==y_nova+1 and x_vella==x_nova-1) or (y_vella==y_nova-1 and x_vella==x_nova+1):
-            Rei=True
-            
+            Rei = straight and diagonal
+        
         return Rei
     
-    def verificarReina (self,x_vella,y_vella,x_nova,y_nova):
+    def verificarReina (self,x_vella,y_vella,x_nova,y_nova,player):
         Reina = False
         movHoritz=False
+        print("CHECK REINA")
         mov_diag=False
-        movHoritz= self.verificarTorre(x_vella,y_vella,x_nova,y_nova)
-        mov_diag= self.verificarAlfil(x_vella,y_vella,x_nova,y_nova)
+        movHoritz= self.verificarTorre(x_vella,y_vella,x_nova,y_nova,player)
+        mov_diag= self.verificarAlfil(x_vella,y_vella,x_nova,y_nova,player)
         if(movHoritz or mov_diag):
             Reina=True
         return Reina
@@ -188,3 +197,66 @@ class Game:
     def resetWent(self):
         self.p1Went = False
         self.p2Went = False
+    
+    def check_straight(self, actual ,new,p):
+        x_check = new[0]-actual[0]
+        y_check = new[1]-actual[1]
+        
+        if(x_check<0):
+            for i in range(abs(x_check)):
+                for position0,position1 in zip(self.all_pieces[p],self.all_pieces[(p+1)%2]):
+                    if ((actual[0]-i-1,actual[1]) == position0 or (actual[0]-i-1,actual[1]) == position1):
+                        return False
+        if(x_check>0):
+            for i in range(abs(x_check)):
+                for position0,position1 in zip(self.all_pieces[p],self.all_pieces[(p+1)%2]):
+                    if ((actual[0]+i+1,actual[1]) == position0 or (actual[0]+i+1,actual[1]) == position1):
+                        return False
+                     
+                        
+        if(y_check<0):
+            for i in range(abs(y_check)):
+                for position0,position1 in zip(self.all_pieces[p],self.all_pieces[(p+1)%2]):
+                    if ((actual[0],actual[1]-i-1) == position0 or (actual[0],actual[1]-i-1) == position1):
+                        return False
+        if(y_check>0):
+            for i in range(abs(y_check)):
+                for position0,position1 in zip(self.all_pieces[p],self.all_pieces[(p+1)%2]):
+                    if ((actual[0],actual[1]+i+1) == position0 or (actual[0],actual[1]+i+1) == position1):
+                        return False
+        return True
+                
+    
+    def check_diagonal(self, actual ,new,p):
+        x_check = new[0]-actual[0]
+        y_check = new[1]-actual[1]
+        
+        print("Alfil check:",x_check,y_check)
+        
+        if(x_check<0 and y_check<0 ):
+            print("Zona1")
+            for i in range(abs(x_check)):
+                for position0,position1 in zip(self.all_pieces[p],self.all_pieces[(p+1)%2]):
+                    if ((actual[0]-i-1,actual[1]-i-1) == position0 or (actual[0]-i-1,actual[1]-i-1) == position1):
+                        return False
+        if(x_check>0 and y_check>0):
+            print("Zona2")
+            for i in range(abs(x_check)):
+                for position0,position1 in zip(self.all_pieces[p],self.all_pieces[(p+1)%2]):
+                    if ((actual[0]+i+1,actual[1]+i+1) == position0 or (actual[0]+i+1,actual[1]+i+1) == position1):
+                        return False
+                     
+                        
+        if(x_check<0 and y_check>0):
+            print("Zona3")
+            for i in range(abs(y_check)):
+                for position0,position1 in zip(self.all_pieces[p],self.all_pieces[(p+1)%2]):
+                    if ((actual[0]-i-1,actual[1]+i+1) == position0 or (actual[0]-i-1,actual[1]+i+1) == position1):
+                        return False
+        if(x_check>0 and y_check<0):
+            print("Zona4")
+            for i in range(abs(y_check)):
+                for position0,position1 in zip(self.all_pieces[p],self.all_pieces[(p+1)%2]):
+                    if ((actual[0]+i+1,actual[1]-i-1) == position0 or (actual[0]+i+1,actual[1]-i-1) == position1):
+                        return False
+        return True
