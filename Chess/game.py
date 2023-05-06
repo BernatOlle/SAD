@@ -203,24 +203,24 @@ class Game:
         y_check = new[1]-actual[1]
         
         if(x_check<0):
-            for i in range(abs(x_check)):
+            for i in range(abs(x_check)-1):
                 for position0,position1 in zip(self.all_pieces[p],self.all_pieces[(p+1)%2]):
                     if ((actual[0]-i-1,actual[1]) == position0 or (actual[0]-i-1,actual[1]) == position1):
                         return False
         if(x_check>0):
-            for i in range(abs(x_check)):
+            for i in range(abs(x_check)-1):
                 for position0,position1 in zip(self.all_pieces[p],self.all_pieces[(p+1)%2]):
                     if ((actual[0]+i+1,actual[1]) == position0 or (actual[0]+i+1,actual[1]) == position1):
                         return False
                      
                         
         if(y_check<0):
-            for i in range(abs(y_check)):
+            for i in range(abs(y_check)-1):
                 for position0,position1 in zip(self.all_pieces[p],self.all_pieces[(p+1)%2]):
                     if ((actual[0],actual[1]-i-1) == position0 or (actual[0],actual[1]-i-1) == position1):
                         return False
         if(y_check>0):
-            for i in range(abs(y_check)):
+            for i in range(abs(y_check)-1):
                 for position0,position1 in zip(self.all_pieces[p],self.all_pieces[(p+1)%2]):
                     if ((actual[0],actual[1]+i+1) == position0 or (actual[0],actual[1]+i+1) == position1):
                         return False
@@ -235,13 +235,13 @@ class Game:
         
         if(x_check<0 and y_check<0 ):
             print("Zona1")
-            for i in range(abs(x_check)):
+            for i in range(abs(x_check)-1):
                 for position0,position1 in zip(self.all_pieces[p],self.all_pieces[(p+1)%2]):
                     if ((actual[0]-i-1,actual[1]-i-1) == position0 or (actual[0]-i-1,actual[1]-i-1) == position1):
                         return False
         if(x_check>0 and y_check>0):
             print("Zona2")
-            for i in range(abs(x_check)):
+            for i in range(abs(x_check)-1):
                 for position0,position1 in zip(self.all_pieces[p],self.all_pieces[(p+1)%2]):
                     if ((actual[0]+i+1,actual[1]+i+1) == position0 or (actual[0]+i+1,actual[1]+i+1) == position1):
                         return False
@@ -249,13 +249,13 @@ class Game:
                         
         if(x_check<0 and y_check>0):
             print("Zona3")
-            for i in range(abs(y_check)):
+            for i in range(abs(y_check)-1):
                 for position0,position1 in zip(self.all_pieces[p],self.all_pieces[(p+1)%2]):
                     if ((actual[0]-i-1,actual[1]+i+1) == position0 or (actual[0]-i-1,actual[1]+i+1) == position1):
                         return False
         if(x_check>0 and y_check<0):
             print("Zona4")
-            for i in range(abs(y_check)):
+            for i in range(abs(y_check)-1):
                 for position0,position1 in zip(self.all_pieces[p],self.all_pieces[(p+1)%2]):
                     if ((actual[0]+i+1,actual[1]-i-1) == position0 or (actual[0]+i+1,actual[1]-i-1) == position1):
                         return False
