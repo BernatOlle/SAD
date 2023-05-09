@@ -121,7 +121,7 @@ class Game:
         except: 
             pos = -1 
         if(pos != -1): 
-            if pos==4:
+            if pos==3:
                 self.partida=False
             self.all_pieces[p][pos]=(-1,-1)
             print("HAS MATAT!")
