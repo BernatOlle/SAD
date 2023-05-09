@@ -5,7 +5,7 @@ from game import Game
 
 hostname = socket.gethostname()
 server = socket.gethostbyname(hostname)
-server = "localhost"
+server = "10.192.38.47"
 print(server)
 
 port = 5555
