@@ -1,8 +1,27 @@
  # from movements import Movements as m
+class Constants:
+    REI=3
+    REINA=4
+    ALFIL_1=2
+    ALFIL_2=5
+    TORRE_1= 0
+    TORRE_2= 7
+    CABALL_1= 1
+    CABALL_2=6
+    PEO_1=8
+    PEO_2=9
+    PEO_3=10
+    PEO_4=11
+    PEO_5=12
+    PEO_6=13
+    PEO_7=14
+    PEO_8=15
+    
 
 class Game:
     # te tota la info de la partida
     def __init__(self, id):
+        self.constants = Constants()
         self.turn = [True,False]
         self.move = [False, False]
         self.ready = False
@@ -56,18 +75,18 @@ class Game:
                 x_vella= self.all_pieces[player][self.piece_sel][0]
                 y_vella=self.all_pieces[player][self.piece_sel][1]
 
-                if(self.piece_sel==0 or self.piece_sel==7):
+                if(self.piece_sel== self.constants.TORRE_1 or self.piece_sel==self.constants.TORRE_2):
                     self.moveCorrect=self.verificarTorre(x_vella,y_vella,int(x[1]),int(y[1]),player)
-                elif(self.piece_sel==1 or self.piece_sel==6):
+                elif(self.piece_sel==self.constants.CABALL_1 or self.piece_sel==self.constants.CABALL_2):
                     self.moveCorrect=self.verificarCaball(x_vella,y_vella,int(x[1]),int(y[1]),player)
-                elif(self.piece_sel==8 or self.piece_sel==9 or self.piece_sel==10 or self.piece_sel==11 or self.piece_sel==12 or self.piece_sel==13 or self.piece_sel==14 or self.piece_sel ==15 ):
+                elif(self.piece_sel <= self.constants.PEO_8 and self.piece_sel >= self.constants.PEO_1):
                     self.moveCorrect=self.verificarPeo(x_vella,y_vella,int(x[1]),int(y[1]),player)
                     self.kill_piece(player,int(x[1]),int(y[1]))
-                elif(self.piece_sel==2 or self.piece_sel==5):
+                elif(self.piece_sel==self.constants.ALFIL_1 or self.piece_sel==self.constants.ALFIL_2):
                     self.moveCorrect=self.verificarAlfil(x_vella,y_vella,int(x[1]),int(y[1]),player)
-                elif self.piece_sel==4:
+                elif self.piece_sel==self.constants.REINA:
                     self.moveCorrect=self.verificarReina(x_vella,y_vella,int(x[1]),int(y[1]),player)
-                elif self.piece_sel==3:
+                elif self.piece_sel==self.constants.REI:
                     self.moveCorrect=self.verificarRei(x_vella,y_vella,int(x[1]),int(y[1]),player)
                 if self.moveCorrect:
                     self.kill_piece(player,int(x[1]),int(y[1]))
@@ -121,7 +140,7 @@ class Game:
         except: 
             pos = -1 
         if(pos != -1): 
-            if pos==3:
+            if pos==self.constants.REI:
                 self.partida=False
             self.all_pieces[p][pos]=(-1,-1)
             print("HAS MATAT!")
