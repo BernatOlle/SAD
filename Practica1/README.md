@@ -1,8 +1,8 @@
-PRACTICA 1
+**PRÀCTICA 1**
 
-Objectiu: Poder editar la seqüència de caracters escrita a la terminal  
+**Objectiu**: Poder editar la seqüència de caracters escrita a la terminal  
 
-EditableBufferedReader.java
+**EditableBufferedReader.java**
         Esten la classe BufferedReader amb els següents mètodes:
         
                 setRaw: Passa la consola de mode cooked a mode raw.
@@ -13,7 +13,7 @@ EditableBufferedReader.java
                 
                 readLine: Llegeix la línia amb possibilitat d’editar-la.
 
-Line.java
+**Line.java**
         Encapsula 3 atributs:
         
                 Seqüència de caràcters
@@ -24,15 +24,15 @@ Line.java
                 
                 S'utilitzarà dins el mètode readLine
 
-Part opcional: Com ha part opcional hem afegit que es pugui interaccionar amb el ratolí sobre la linia de caracters.
+**Part opcional**: Com ha part opcional hem afegit que es pugui interaccionar amb el ratolí sobre la linia de caracters.
 
 
-MVC
+**MVC**
         Model : L'estat de l'aplicació canvia
         View: Presentació de l'aplicació
         Controller: Gestor d'esdeveniments d'input
         
-Observable.java
+**Observable.java**
         El cmodel informa les vistes amb notifyObserver quan el estat canvia.
         
 
