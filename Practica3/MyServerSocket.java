@@ -1,32 +1,30 @@
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+public class MyServerSocket{
 
-public class MyServerSocket extends ServerSocket {
-    ServerSocket ss;
-    MySocket sc;
-    public MyServerSocket(int port) throws IOException{
-       
-        this.ss = new ServerSocket(port);
+    ServerSocket socket;
+
+    public MyServerSocket(int port){
+        try {
+            this.socket = new ServerSocket(port);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+    }
+
+    public MySocket accept(){
+
+        try {
+            return new MySocket(socket.accept());
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return null;
     }
     
-    @Override
-    public MySocket accept(){
-        try {
-            this.sc = new MySocket(ss.accept());
-            return sc;
-        } catch (IOException ex) {
-            Logger.getLogger(MyServerSocket.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return  null;
-    }
-    @Override
-    public void close(){
-        try {
-            this.ss.close();
-        } catch (IOException ex) {
-            Logger.getLogger(MyServerSocket.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }   
 }
