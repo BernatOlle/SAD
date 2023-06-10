@@ -27,4 +27,14 @@ Line.java
 Part opcional: Com ha part opcional hem afegit que es pugui interaccionar amb el ratolí sobre la linia de caracters.
 
 
+MVC
+        Model : L'estat de l'aplicació canvia
+        View: Presentació de l'aplicació
+        Controller: Gestor d'esdeveniments d'input
+        
+Observable.java
+        El cmodel informa les vistes amb notifyObserver quan el estat canvia.
+        
+
+
  
