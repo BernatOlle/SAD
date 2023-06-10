@@ -1,5 +1,3 @@
-INFO
-
 Objectiu: Realitzar un aplicació gràfica d'un xat utilitzant swing. 
 
 Funcionament: Cada usuari te una pantalla individual. Per entrar el xat hi ha una pantalla inicial en la que es demana el nom d'usuari amb el 
