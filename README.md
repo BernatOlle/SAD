@@ -1,4 +1,4 @@
-Software Archicture Design
+**Software Archicture Design**
 
 Projectes realitzats:
 
@@ -10,4 +10,4 @@ Projectes realitzats:
   
     4.Pràctica 3
 
-Participants : Bernat Ollé i Anna Monsó
+**Participants** : Bernat Ollé i Anna Monsó
